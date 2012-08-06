@@ -10,7 +10,7 @@ CROSS	:= mips-linux-gnu-
 CFLAGS	:= -O2 -mips32 -fno-pic -mno-abicalls -EL -g -Wall
 LDFLAGS	:= -nostdlib -T target.ld -EL
 
-OBJS1	= head.o my4770.o main.o uart.o act8600.o
+OBJS1	= head.o main.o uart.o my4770.o act8600.o i2c.o
 
 all: fw_ddr1.bin
 	cat mbr fw_ddr1.bin > all.bin

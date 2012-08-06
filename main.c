@@ -20,7 +20,7 @@
 #include "my4770.h"
 #include "uart.h"
 #include "act8600.h"
-
+#include "i2c.h"
 
 void init_all(void);
 
@@ -32,9 +32,9 @@ void cmain(void)
 
 	while(1){
 		delayms(500);
-//		prints((u8 *)"\nMcu:");
-		sendhex32("\n\nS1", rLCDSTATE);
-		sendhex32("\nS2", rLCDOSDS);
+	
+	
+	
 	}
 
 }
@@ -45,9 +45,9 @@ void init_all(void)
 	init_uart();
 	init_pll();
 	act8600_setting();
-	init_ddr();
-	init_lcd();
-
+//	init_ddr();
+//	init_lcd();
+	init_i2c();
 }
 
 

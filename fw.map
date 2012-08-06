@@ -1,0 +1,35 @@
+
+fw_ddr1.elf:     file format elf32-tradlittlemips
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000e30  80000200  80000200  00000200  2**4
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .rodata       0000012c  80001030  80001030  00001030  2**4
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  2 .data         00000028  80001160  80001160  00001160  2**4
+                  CONTENTS, ALLOC, LOAD, DATA
+  3 .pdr          00000280  00000000  00000000  00001188  2**2
+                  CONTENTS, READONLY
+  4 .debug_line   0000038c  00000000  00000000  00001408  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   00000813  00000000  00000000  00001794  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 0000044b  00000000  00000000  00001fa7  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_aranges 000000c0  00000000  00000000  000023f8  2**3
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000250  00000000  00000000  000024b8  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_loc    000005e3  00000000  00000000  00002708  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_pubnames 0000017b  00000000  00000000  00002ceb  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_str    00000244  00000000  00000000  00002e66  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .comment      000000c3  00000000  00000000  000030aa  2**0
+                  CONTENTS, READONLY
+ 13 .gnu.attributes 00000010  00000000  00000000  0000316d  2**0
+                  CONTENTS, READONLY
+ 14 .debug_ranges 00000050  00000000  00000000  0000317d  2**0
+                  CONTENTS, READONLY, DEBUGGING

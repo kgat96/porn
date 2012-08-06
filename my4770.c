@@ -19,6 +19,7 @@
 #include "my4770.h"
 #include "uart.h"
 
+#if 0
 #define Index_Invalidate_I      0x00
 #define Index_Writeback_Inv_D   0x01
 #define Index_Invalidate_SI     0x02
@@ -107,7 +108,7 @@ void flush_cache_all(void)
 	flush_dcache_all();
 	flush_icache_all();
 }
-
+#endif
 
 /* 600M --> (1÷600000000)×(40×15) = 1uS */
 void delayus(v32 delays)
@@ -153,6 +154,7 @@ void init_pll(void)
 	sendhex32((u8 *)"\nrOPCR ", rOPCR);
 }
 
+#ifdef CONFIG_DDR //XXX not use this function
 static void show_ddr(void)
 {
 	sendhex32((u8 *)"\nrDSTATUS ",   rDSTATUS    );
@@ -168,6 +170,30 @@ static void show_ddr(void)
 	sendhex32((u8 *)"\nrDMMAP1 ",    rDMMAP1	   );
 	sendhex32((u8 *)"\nrDDELAYCTRL ",rDDELAYCTRL );
 	sendhex32((u8 *)"\nrPMEMCTRL3 ", rPMEMCTRL3  );
+}
+
+static void show_lcd(void)
+{
+	sendhex32((u8 *)"\nrLCDCFG ",		rLCDCFG		 );
+	sendhex32((u8 *)"\nrLCDCTRL ",	rLCDCTRL	 );
+	sendhex32((u8 *)"\nrLCDOSDC ",	rLCDOSDC	 );
+	sendhex32((u8 *)"\nrLCDOSDCTRL ", rLCDOSDCTRL  );
+	sendhex32((u8 *)"\nrLCDALPHA ",	rLCDALPHA	 );
+	sendhex32((u8 *)"\nrLCDRGBC ",	rLCDRGBC	 );
+	sendhex32((u8 *)"\nrLCDVAT ",		rLCDVAT		 );
+	sendhex32((u8 *)"\nrLCDDAH ",		rLCDDAH		 );
+	sendhex32((u8 *)"\nrLCDDAV ",		rLCDDAV		 );
+	sendhex32((u8 *)"\nrLCDSIZE0 ",	rLCDSIZE0	 );
+	sendhex32((u8 *)"\nrLCDSIZE1 ",	rLCDSIZE1	 );
+	sendhex32((u8 *)"\nrLCDVSYNC ",	rLCDVSYNC	 );
+	sendhex32((u8 *)"\nrLCDHSYNC ",	rLCDHSYNC	 );
+	sendhex32((u8 *)"\nrLCDDA0 ",		rLCDDA0		 );
+	sendhex32((u8 *)"\nrLCDPCFG ",	rLCDPCFG	 );
+	
+	sendhex32((u8 *)"\nrLCDSA0 ",	rLCDSA0	 );
+	sendhex32((u8 *)"\nrLCDCMD0 ",	rLCDCMD0	 );
+	sendhex32((u8 *)"\nrLCDSTATE ",	rLCDSTATE	 );
+
 }
 
 static void test_ddr(u32 dat)
@@ -292,32 +318,8 @@ void init_ddr(void)
 
 	rDLMR = 0x11;
 
-	show_ddr();
+//	show_ddr();
 	test_ddr(0xA0004000);
-}
-
-static void show_lcd(void)
-{
-	sendhex32((u8 *)"\nrLCDCFG ",		rLCDCFG		 );
-	sendhex32((u8 *)"\nrLCDCTRL ",	rLCDCTRL	 );
-	sendhex32((u8 *)"\nrLCDOSDC ",	rLCDOSDC	 );
-	sendhex32((u8 *)"\nrLCDOSDCTRL ", rLCDOSDCTRL  );
-	sendhex32((u8 *)"\nrLCDALPHA ",	rLCDALPHA	 );
-	sendhex32((u8 *)"\nrLCDRGBC ",	rLCDRGBC	 );
-	sendhex32((u8 *)"\nrLCDVAT ",		rLCDVAT		 );
-	sendhex32((u8 *)"\nrLCDDAH ",		rLCDDAH		 );
-	sendhex32((u8 *)"\nrLCDDAV ",		rLCDDAV		 );
-	sendhex32((u8 *)"\nrLCDSIZE0 ",	rLCDSIZE0	 );
-	sendhex32((u8 *)"\nrLCDSIZE1 ",	rLCDSIZE1	 );
-	sendhex32((u8 *)"\nrLCDVSYNC ",	rLCDVSYNC	 );
-	sendhex32((u8 *)"\nrLCDHSYNC ",	rLCDHSYNC	 );
-	sendhex32((u8 *)"\nrLCDDA0 ",		rLCDDA0		 );
-	sendhex32((u8 *)"\nrLCDPCFG ",	rLCDPCFG	 );
-	
-	sendhex32((u8 *)"\nrLCDSA0 ",	rLCDSA0	 );
-	sendhex32((u8 *)"\nrLCDCMD0 ",	rLCDCMD0	 );
-	sendhex32((u8 *)"\nrLCDSTATE ",	rLCDSTATE	 );
-
 }
 
 /*
@@ -506,7 +508,7 @@ void init_lcd(void)
 	rLCDOSDCTRL = 0x5;
 	rLCDCTRL	= 0x4000000d;
 	
-	show_lcd();
+//	show_lcd();
 
 	u32 *p = (u32 *)LCD_FB_BASE;
 	u32 i,j;
@@ -548,12 +550,9 @@ void init_lcd(void)
 //		*(p+i) = 0xff0000;
 //	}
 
-
-
 }
 
-
-
+#endif
 
 
 
