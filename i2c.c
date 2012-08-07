@@ -36,19 +36,19 @@ void init_i2c(void)
 	REG32(0xb0010338) = 0xc0000000;		// PDPAT1c
 	REG32(0xb0010348) = 0xc0000000;		// PDPAT0c
 	
-	sendhex32("\n", REG32(0xb0010310));
+	sendhex32((u8 *)"\n", REG32(0xb0010310));
 	sendhex32(NULL, REG32(0xb0010320));
 	sendhex32(NULL, REG32(0xb0010330));
 	sendhex32(NULL, REG32(0xb0010340));
 
-	rI2C0CON = 0xe3;
+	rI2C0CON = 0xe5;
 //  rI2C0TAR = 0x5;
     rI2C0SAR = 0x55;
 //  rI2C0DC = 0x234;
-    rI2C0SHCNT = 0x234;
-    rI2C0SLCNT = 0x2a0;
-    rI2C0FHCNT = 0x3c;
-    rI2C0FLCNT = 0x82;
+    rI2C0SHCNT = 615;
+    rI2C0SLCNT = 615;
+    rI2C0FHCNT = 615;	// the same set to low speed
+    rI2C0FLCNT = 615;
 //  rI2C0INTST = 0x0;
 	rI2C0INTM = 0x0;
 
@@ -68,20 +68,30 @@ void init_i2c(void)
 
 #if 1
 	rI2C0TAR = 0x57;
-	rI2C0CON = 0xe3;
+//	rI2C0CON = 0xe3;
 
 	send_i2c(0x10);
+	send_i2c(0x11);
 
-	rI2C0TAR = 0x57;
-	rI2C0CON = 0xe3;
+//	rI2C0TAR = 0x57;
+//	rI2C0CON = 0xe3;
 
-	send_i2c(0x01);
-	send_i2c(0x02);
-	send_i2c(0x03);
-	send_i2c(0x04);
-	send_i2c(0x05);
-
+	send_i2c(0x100);
+	send_i2c(0x100);
+	send_i2c(0x100);
+	send_i2c(0x100);
+	send_i2c(0x100);
 	rI2C0CON = 0x63;
+
+sendhex32((u8 *)"\n ", rI2C0ST);
+sendhex32((u8 *)"\n5", rI2C0DC);
+sendhex32((u8 *)"\n5", rI2C0DC);
+sendhex32((u8 *)"\n5", rI2C0DC);
+sendhex32((u8 *)"\n ", rI2C0ST);
+sendhex32((u8 *)"\n5", rI2C0DC);
+sendhex32((u8 *)"\n5", rI2C0DC);
+sendhex32((u8 *)"\n5", rI2C0DC);
+
 #else
 	rI2C0TAR = 0x57;
 	rI2C0DC = 0x00;
