@@ -33,8 +33,6 @@ void cmain(void)
 	while(1){
 		delayms(500);
 	
-	
-	
 	}
 
 }
@@ -47,7 +45,8 @@ void init_all(void)
 	act8600_setting();
 //	init_ddr();
 //	init_lcd();
-	init_i2c();
+//	init_i2c();
+
 }
 
 

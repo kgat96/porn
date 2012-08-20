@@ -70,8 +70,7 @@ void init_i2c(void)
 	rI2C0TAR = 0x57;
 //	rI2C0CON = 0xe3;
 
-	send_i2c(0x10);
-	send_i2c(0x11);
+	send_i2c(0x0);
 
 //	rI2C0TAR = 0x57;
 //	rI2C0CON = 0xe3;
@@ -81,16 +80,17 @@ void init_i2c(void)
 	send_i2c(0x100);
 	send_i2c(0x100);
 	send_i2c(0x100);
+//	rI2C0CON = 0x63;
+while(!(rI2C0ST & 8));
+sendhex32((u8 *)"\n ", rI2C0ST);
+sendhex32((u8 *)"\n5", rI2C0DC);
+sendhex32((u8 *)"\n5", rI2C0DC);
+sendhex32((u8 *)"\n5", rI2C0DC);
+sendhex32((u8 *)"\n ", rI2C0ST);
+sendhex32((u8 *)"\n5", rI2C0DC);
+sendhex32((u8 *)"\n5", rI2C0DC);
+sendhex32((u8 *)"\n5", rI2C0DC);
 	rI2C0CON = 0x63;
-
-sendhex32((u8 *)"\n ", rI2C0ST);
-sendhex32((u8 *)"\n5", rI2C0DC);
-sendhex32((u8 *)"\n5", rI2C0DC);
-sendhex32((u8 *)"\n5", rI2C0DC);
-sendhex32((u8 *)"\n ", rI2C0ST);
-sendhex32((u8 *)"\n5", rI2C0DC);
-sendhex32((u8 *)"\n5", rI2C0DC);
-sendhex32((u8 *)"\n5", rI2C0DC);
 
 #else
 	rI2C0TAR = 0x57;

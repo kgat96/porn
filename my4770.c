@@ -430,8 +430,8 @@ void init_lcd(void)
 	my_fb_des.da2_addr = my_fb_des.fbpale->fdadr;
 
 	// init gpio PWM
-	REG32(0xb0010438) = 0x00000002;		// PEPAT1C
-	REG32(0xb0010444) = 0x00000002;		// PEPAT0S
+	REG32(0xb0010438) = 0x00002002;		// PEPAT1C
+	REG32(0xb0010444) = 0x00002002;		// PEPAT0S
 
 	// init gpio glcd
 	REG32(0xb0010218) = 0x0fffffff;		// PCINTC
@@ -554,6 +554,13 @@ void init_lcd(void)
 
 #endif
 
+void initPWM(void)
+{
 
+
+
+
+
+}
 
 

@@ -235,3 +235,8 @@ void act8600_setting(void)
 
 	lcd_power_config(1);
 }
+
+// /usr/i2c.bin /dev/i2c1 da 0 5
+// /usr/i2c.bin /dev/i2c0 57 0 5 2
+// /usr/i2c.bin /dev/i2c1 5a 0 5 2
+// mount -t debugfs none /sys/kernel/debug/
