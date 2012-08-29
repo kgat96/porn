@@ -154,7 +154,8 @@ void init_pll(void)
 	sendhex32((u8 *)"\nrOPCR ", rOPCR);
 }
 
-#ifdef CONFIG_DDR //XXX not use this function
+//#define CONFIG_DDR
+#if 1
 static void show_ddr(void)
 {
 	sendhex32((u8 *)"\nrDSTATUS ",   rDSTATUS    );
@@ -321,7 +322,9 @@ void init_ddr(void)
 //	show_ddr();
 	test_ddr(0xA0004000);
 }
+#endif
 
+#if 0
 /*
  * LCD controller stucture for JZSOC: JZ4730 JZ4740
  */
@@ -430,8 +433,12 @@ void init_lcd(void)
 	my_fb_des.da2_addr = my_fb_des.fbpale->fdadr;
 
 	// init gpio PWM
-	REG32(0xb0010438) = 0x00002002;		// PEPAT1C
-	REG32(0xb0010444) = 0x00002002;		// PEPAT0S
+	REG32(0xb0010438) = 0x00002006;		// PEPAT1C
+	REG32(0xb0010444) = 0x00002006;		// PEPAT0S
+
+	// init gpio lcd dl
+	REG32(0xb0010138) = 0x0c000000;		// PEPAT1C
+	REG32(0xb0010144) = 0x04000000;		// PEPAT0S
 
 	// init gpio glcd
 	REG32(0xb0010218) = 0x0fffffff;		// PCINTC
@@ -554,13 +561,31 @@ void init_lcd(void)
 
 #endif
 
-void initPWM(void)
+
+
+
+
+
+
+
+
+void init_pwm(void)
 {
+	// init gpio func0
+	REG32(0xb0010418) = 0x00000003;		// PEPAT1C
+	REG32(0xb0010428) = 0x00000003;		// PEPAT0S
+	REG32(0xb0010438) = 0x00000003;		// PEPAT1C
+	REG32(0xb0010448) = 0x00000003;		// PEPAT0S
 
+	REG32(0xb000205c) = 0x000002a4;		// PEPAT0S
+	REG32(0xb0002050) = 0x1d4;			// PEPAT0S
+	REG32(0xb0002054) = 0xea;			// PEPAT0S
 
+	REG32(0xb000204c) = 0x000002a4;		// PEPAT0S
+	REG32(0xb0002040) = 0xaff;			// PEPAT0S
+	REG32(0xb0002044) = 0x5ff;			// PEPAT0S
 
-
-
+	REG32(0xb0002014) = 0x0003;			// PEPAT0S
 }
 
 

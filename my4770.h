@@ -91,6 +91,95 @@
 #define rLCDXYP0_P2	(*(v32 *)(LCD_BASE_ADDR + 0x1f0))
 #define rLCDXYP1	(*(v32 *)(LCD_BASE_ADDR + 0x124))
 
+#define TCU_BASE_ADDR 0xb0002000
+#define rTCUTCSR0	(*(v32 *)(TCU_BASE_ADDR + 0x4c))
+#define rTCUTCSR1	(*(v32 *)(TCU_BASE_ADDR + 0x5c))
+
+
+/*
+ * Macros to access the system control coprocessor
+ */
+
+#define __read_32bit_c0_register(source, sel)				\
+({ int __res;								\
+	if (sel == 0)							\
+		__asm__ __volatile__(					\
+			"mfc0\t%0, " #source "\n\t"			\
+			: "=r" (__res));				\
+	else								\
+		__asm__ __volatile__(					\
+			".set\tmips32\n\t"				\
+			"mfc0\t%0, " #source ", " #sel "\n\t"		\
+			".set\tmips0\n\t"				\
+			: "=r" (__res));				\
+	__res;								\
+})
+
+#define __read_64bit_c0_register(source, sel)				\
+({ unsigned long long __res;						\
+	if (sizeof(unsigned long) == 4)					\
+		__res = __read_64bit_c0_split(source, sel);		\
+	else if (sel == 0)						\
+		__asm__ __volatile__(					\
+			".set\tmips3\n\t"				\
+			"dmfc0\t%0, " #source "\n\t"			\
+			".set\tmips0"					\
+			: "=r" (__res));				\
+	else								\
+		__asm__ __volatile__(					\
+			".set\tmips64\n\t"				\
+			"dmfc0\t%0, " #source ", " #sel "\n\t"		\
+			".set\tmips0"					\
+			: "=r" (__res));				\
+	__res;								\
+})
+
+#define __write_32bit_c0_register(register, sel, value)			\
+do {									\
+	if (sel == 0)							\
+		__asm__ __volatile__(					\
+			"mtc0\t%z0, " #register "\n\t"			\
+			: : "Jr" ((unsigned int)(value)));		\
+	else								\
+		__asm__ __volatile__(					\
+			".set\tmips32\n\t"				\
+			"mtc0\t%z0, " #register ", " #sel "\n\t"	\
+			".set\tmips0"					\
+			: : "Jr" ((unsigned int)(value)));		\
+} while (0)
+
+#define __write_64bit_c0_register(register, sel, value)			\
+do {									\
+	if (sizeof(unsigned long) == 4)					\
+		__write_64bit_c0_split(register, sel, value);		\
+	else if (sel == 0)						\
+		__asm__ __volatile__(					\
+			".set\tmips3\n\t"				\
+			"dmtc0\t%z0, " #register "\n\t"			\
+			".set\tmips0"					\
+			: : "Jr" (value));				\
+	else								\
+		__asm__ __volatile__(					\
+			".set\tmips64\n\t"				\
+			"dmtc0\t%z0, " #register ", " #sel "\n\t"	\
+			".set\tmips0"					\
+			: : "Jr" (value));				\
+} while (0)
+
+#define __read_ulong_c0_register(reg, sel)				\
+	((sizeof(unsigned long) == 4) ?					\
+	(unsigned long) __read_32bit_c0_register(reg, sel) :		\
+	(unsigned long) __read_64bit_c0_register(reg, sel))
+
+#define __write_ulong_c0_register(reg, sel, val)			\
+do {									\
+	if (sizeof(unsigned long) == 4)					\
+		__write_32bit_c0_register(reg, sel, val);		\
+	else								\
+		__write_64bit_c0_register(reg, sel, val);		\
+} while (0)
+
+
 void delayus(v32 delays);
 void delayms(v32 delays);
 void init_pll(void);
